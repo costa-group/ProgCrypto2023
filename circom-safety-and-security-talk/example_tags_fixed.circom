@@ -46,13 +46,13 @@ template CheckAllLessThan(n_bits, n){
     }
 }
 
-template AddMaxbitTag(n) {
+template AddMaxbitTag(m) {
     signal input in;
     signal output {maxbit} out;
     
-    _ <== Num2Bits(n)(in);
+    _ <== Num2Bits(m)(in);
 
-    out.maxbit = n;
+    out.maxbit = m;
     out <== in;
 }
 

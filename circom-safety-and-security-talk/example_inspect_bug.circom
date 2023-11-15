@@ -22,7 +22,7 @@ template LessThan(n) {
     signal output out;
 
     component n2b = Num2Bits(n+1);
-    n2b.in <== in_0+ (1<<n) - in_1;
+    n2b.in <== in_0 + (1<<n) - in_1;
     out <== 1-n2b.out[n];
 }
 

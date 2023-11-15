@@ -25,8 +25,7 @@ template LessThan(n) {
     n2b.in <== in_0+ (1<<n) - in_1;
     out <== 1-n2b.out[n];
     for (var i = 0; i < n; i++){
-        _ <== n2b.out[i];
-    }
+        _ <== n2b.out[i]; }
 }
 
 template CheckAllLessThan(n_bits, n){
