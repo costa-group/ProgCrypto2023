@@ -16,6 +16,14 @@ template Num2Bits(n) {
     lc1 === in;
 }
 
+template NOT() {
+    signal input {binary} in;
+    signal output {binary} out;
+
+    out <== 1 + in - 2*in;
+    
+}
+
 template LessThan(n) {
     assert(n <= 252);
     signal input {maxbit} in_0;
@@ -30,6 +38,37 @@ template LessThan(n) {
     for (var i = 0; i < n; i++){
         _ <== n2b.out[i];
     }    
+}
+
+template GreaterThan(n) {
+    signal input {maxbit} in_0;
+    signal input {maxbit} in_1;
+    signal output {binary} out;
+
+
+    component lt = LessThan(n);
+
+    lt.in_0 <== in_1;
+    lt.in_1 <== in_0;
+    lt.out ==> out;
+    
+}
+
+template LessEqThan(n){
+    signal input {maxbit} in_0;
+    signal input {maxbit} in_1;
+    signal output {binary} out;
+    assert(in_0.maxbit <= n);
+    assert(in_1.maxbit <= n);
+
+    component gt = GreaterThan(n);
+    gt.in_0 <== in_0;
+    gt.in_1 <== in_1;
+    
+    component nt = NOT();
+    nt.in <== gt.out;
+    nt.out ==> out;
+
 }
 
 template AddMaxbitTag(n) {

@@ -54,6 +54,7 @@ template LessEqThan(n){
 
 }
 
+
 template LessThan(n) {
     assert(n <= 252);
     signal input in_0;
@@ -65,7 +66,8 @@ template LessThan(n) {
     out <== 1-n2b.out[n];   
     for (var i = 0; i < n; i++){
         _ <== n2b.out[i];
-    }    
+    }  
+    
 }
 
 template IntegerDivision(n){
@@ -85,7 +87,10 @@ template IntegerDivision(n){
     lt_quotient === 1;
     
     dividend === divisor * quotient + remainder;
+    
+    spec_postcondition quotient <= dividend;
+    spec_postcondition remainder < divisor;
 
 }
 
-component main = IntegerDivision(10);
+component main = IntegerDivision(5);

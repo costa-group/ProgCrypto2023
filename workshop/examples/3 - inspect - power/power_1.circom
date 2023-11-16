@@ -11,10 +11,10 @@ template Power(n){
         out <== 1;
     } else{
         aux[0] <== 1;
-        for (var i = 0; i < n; i++){
+        for (var i = 0; i < n - 1; i++){
             aux[i + 1] <== aux[i] * in;
         }
-        out <== aux[n];
+        out <== aux[n - 1];
     }
 }
 

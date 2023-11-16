@@ -87,7 +87,7 @@ template A() {
 
     signal aux[2][16];
     aux[0] <== Num2Bits(16)(a);
-    aux[1] <== Num2BitsUnTagged(16)(b);
+    aux[1] <== b;
     
     out <== Bits2Num(16)(BinSub(16)(aux));
 

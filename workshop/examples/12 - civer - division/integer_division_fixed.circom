@@ -1,5 +1,6 @@
 pragma circom 2.1.5;
 
+
 template Num2Bits(n) {
     signal input in;
     signal output {binary} out[n];
@@ -21,6 +22,7 @@ template NOT() {
 
     out <== 1 + in - 2*in;
     
+    spec_postcondition out == !in;
 }
 
 template LessThan(n) {
@@ -31,12 +33,16 @@ template LessThan(n) {
     
     assert(in_0.maxbit <= n);
     assert(in_1.maxbit <= n);
+    
     component n2b = Num2Bits(n+1);
     n2b.in <== in_0 + (1<<n) - in_1;
-    out <== 1-n2b.out[n];   
+    out <== 1-n2b.out[n]; 
+      
     for (var i = 0; i < n; i++){
         _ <== n2b.out[i];
     }    
+    
+    spec_postcondition out == (in_0 < in_1);
 }
 
 template GreaterThan(n) {
@@ -51,6 +57,7 @@ template GreaterThan(n) {
     lt.in_1 <== in_0;
     lt.out ==> out;
     
+    spec_postcondition out == (in_0 > in_1);
 }
 
 template LessEqThan(n){
@@ -67,10 +74,10 @@ template LessEqThan(n){
     component nt = NOT();
     nt.in <== gt.out;
     nt.out ==> out;
+    
+    spec_postcondition out == (in_0 <= in_1);
 
 }
-
-
 template AddMaxbitTag(n) {
     signal input in;
     signal output {maxbit} out;
@@ -79,6 +86,8 @@ template AddMaxbitTag(n) {
 
     out.maxbit = n;
     out <== in;
+    
+    spec_postcondition out == in;
 }
 
 
@@ -96,10 +105,14 @@ template IntegerDivision(n){
     signal lt_remainder <== LessThan(n)(AddMaxbitTag(n)(remainder), divisor);
     lt_remainder === 1;
 
-    signal lt_quotient <== LessEqThan(n)(AddMaxbitTag(n)(quotient), dividend);
+    signal lt_quotient <== LessEqThan(n)(AddMaxbitTag(n)(quotient), dividend );
     lt_quotient === 1;
     
     dividend === divisor * quotient + remainder;
+    
+    spec_postcondition dividend == divisor * quotient + remainder;
+    spec_postcondition quotient <= dividend;
+    spec_postcondition remainder < divisor;
 
 }
 
@@ -115,4 +128,4 @@ template A(n){
 }
 
 
-component main = A(10);
+component main = A(80);

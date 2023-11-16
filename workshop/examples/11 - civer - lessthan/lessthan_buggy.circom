@@ -1,9 +1,5 @@
 pragma circom 2.1.5;
 
-// OUR GOAL: apply --inspect option to find bugs or remove the warnings
-
-
-
 template Num2Bits(n) {
     signal input in;
     signal output out[n];
@@ -16,10 +12,8 @@ template Num2Bits(n) {
         lc1 += out[i] * e2;
         e2 = e2+e2;
     }
-
     lc1 === in;
 }
-
 
 template LessThan(n) {
     assert(n <= 252);
@@ -28,33 +22,13 @@ template LessThan(n) {
     signal output out;
 
     component n2b = Num2Bits(n+1);
-
     n2b.in <== in_0+ (1<<n) - in_1;
-
     out <== 1-n2b.out[n];
-
     for (var i = 0; i < n; i++){
-
-        n2b.out[i] ==> _;
+        _ <== n2b.out[i];
     }
     
+    spec_postcondition out == (in_0 < in_1);
 }
 
-template CheckAllLessThan(n_bits, n){
-    signal input in[n];
-    signal input size;
-    
-    component lt[n];
-    
-    for (var i = 0; i < n; i++){
-        lt[i] = LessThan(n_bits);
-        lt[i].in_0 <== in[i]; 
-        lt[i].in_1 <== size;
-        lt[i].out === 1;
-
-    }
-
-    
-}
-
-component main = CheckAllLessThan(10, 5);
+component main = LessThan(10);
