@@ -1,5 +1,6 @@
 pragma circom 2.1.5;
 
+OUR GOAL: Tag the code as much as possible. 
 template Num2Bits(n){
     signal input in;
     signal output out[n];
