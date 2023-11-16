@@ -1,5 +1,7 @@
 pragma circom 2.1.5;
 
+
+//OUR GOAL: 1) Tag the AND template and 2) make the changes necessary for a correct compilation.
 template AND() {      
     signal input a;
     signal input b;

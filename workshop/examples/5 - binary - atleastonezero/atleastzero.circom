@@ -1,5 +1,8 @@
 pragma circom 2.1.5;
 
+
+//OUR GOAL: Fill the code necessary to have a correct implement of at_least_one_is_zero().
+
 template OR() {      
     signal input {binary} a;
     signal input {binary} b;
