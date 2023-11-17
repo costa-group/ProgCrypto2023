@@ -90,6 +90,7 @@ template IntegerDivision(n){
     
     spec_postcondition quotient <= dividend;
     spec_postcondition remainder < divisor;
+    spec_postcondition dividend == divisor * quotient + remainder;
 
 }
 
